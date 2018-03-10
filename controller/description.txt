@@ -1,1 +1,4 @@
-This folder contains the information regading the snowball throw controller.
+This folder contains the information regading the snowball throw controller. 
+
+To upload the the easily to the microcontroller do (install adafruit ampy first):
+ampy --port /dev/tty.SLAB_USBtoUART put controller.py main.py

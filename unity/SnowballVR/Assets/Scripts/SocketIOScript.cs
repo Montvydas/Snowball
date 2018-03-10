@@ -11,11 +11,7 @@ public class ChatData {
 };
 
 public class SocketIOScript : MonoBehaviour {
-	public string serverURL = "http://192.168.43.224:5000";
-
-	public InputField uiInput = null;
-	public Button uiSend = null;
-	public Text uiChatLog = null;
+	public string serverURL = "http://192.148.43.34:5000";
 
 	protected Socket socket = null;
 	protected List<string> chatLog = new List<string> (); 
@@ -27,26 +23,30 @@ public class SocketIOScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		DoOpen ();
+//		if (socket != null) {
+//			SendMessage ( "HelloWorld" );
+//		}
+//		socket.Emit ("message", "Hello there!");
+		if (socket != null) {
+			Debug.Log ("Socket exists.");
+		} else {
+			Debug.Log ("Socket DOESNT exist!");
+		}
 
-		uiSend.onClick.AddListener(() => {
-			SendChat(uiInput.text);
-			uiInput.text = "";
-			uiInput.ActivateInputField();
-		});
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		lock (chatLog) {
-			if (chatLog.Count > 0) {
-				string str = uiChatLog.text;
-				foreach (var s in chatLog) {
-					str = str + "\n" + s;
-				}
-				uiChatLog.text = str;
-				chatLog.Clear ();
-			}
-		}
+//		lock (chatLog) {
+//			if (chatLog.Count > 0) {
+//				foreach (var s in chatLog) {
+//					str = str + "\n" + s;
+//				}
+//				chatLog.Clear ();
+//			}
+//		}
+//		socket.Emit ("message", "Hello there!");
+//		Debug.Log("Debug printed!");
 	}
 
 	void DoOpen() {
@@ -58,17 +58,17 @@ public class SocketIOScript : MonoBehaviour {
 					chatLog.Add("Socket.IO connected.");
 				}
 			});
-			socket.On ("chat", (data) => {
-				string str = data.ToString();
-
-				ChatData chat = JsonConvert.DeserializeObject<ChatData> (str);
-				string strChatLog = "user#" + chat.id + ": " + chat.msg;
-
-				// Access to Unity UI is not allowed in a background thread, so let's put into a shared variable
-				lock(chatLog) {
-					chatLog.Add(strChatLog);
-				}
-			});
+//			socket.On ("chat", (data) => {
+//				string str = data.ToString();
+//
+//				ChatData chat = JsonConvert.DeserializeObject<ChatData> (str);
+//				string strChatLog = "user#" + chat.id + ": " + chat.msg;
+//
+//				// Access to Unity UI is not allowed in a background thread, so let's put into a shared variable
+//				lock(chatLog) {
+//					chatLog.Add(strChatLog);
+//				}
+//			});
 		}
 	}
 
@@ -82,6 +82,12 @@ public class SocketIOScript : MonoBehaviour {
 	void SendChat(string str) {
 		if (socket != null) {
 			socket.Emit ("chat", str);
+		}
+	}
+
+	void SendMessage(string str) {
+		if (socket != null) {
+			socket.Emit ("message", str);
 		}
 	}
 }

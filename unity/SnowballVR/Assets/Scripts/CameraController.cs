@@ -15,4 +15,10 @@ public class CameraController : MonoBehaviour {
 	void Update () {
 		transform.position = player.transform.position + offset;
 	}
+
+	void LateUpdate() {
+		if (Input.GetKeyDown ("r")) {
+			Application.LoadLevel (Application.loadedLevel);
+		}
+	}
 }

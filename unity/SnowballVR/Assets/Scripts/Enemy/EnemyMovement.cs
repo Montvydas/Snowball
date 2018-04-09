@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class EnemyMovement : MonoBehaviour
@@ -44,7 +44,7 @@ public class EnemyMovement : MonoBehaviour
 		}
 
 		if (hasStarted) {
-			nav.SetDestination (player.position * 0.5f);
+			nav.SetDestination (player.position);
 			countText.gameObject.SetActive(false);
 		}
     }
